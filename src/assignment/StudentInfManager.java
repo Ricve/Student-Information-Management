@@ -7,8 +7,15 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 
+
 public class StudentInfManager {
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+//			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	    }
 		new StuInfFrame();
 		
 	}
@@ -93,22 +100,7 @@ class StuInfFrame extends JFrame {
 		topPanel.add(deleteButton);
 		
 		inf.readFromTxt();
-//		inf.addStudent(new Students("Mike",12,"nowhere","123"));
-//		inf.addStudent(new Students("John",13,"nowhere","1234"));
-//		inf.addStudent(new Students("Eri",14,"nowhere","1245"));
-//		inf.addStudent(new Students("Er",14,"nowhere","1236"));
-//		inf.addStudent(new Students("MiK",12,"nowhere","123"));
-//		inf.addStudent(new Students("Joh",13,"nowhere","1234"));
-//		inf.addStudent(new Students("E",14,"nowhere","1235"));
-//		inf.addStudent(new Students("Err",14,"nowhere","1236"));
-//		inf.addStudent(new Students("Mi",12,"nowhere","123"));
-//		inf.addStudent(new Students("Jo",13,"nowhere","1234"));
-//		inf.addStudent(new Students("Eee",14,"nowhere","1235"));
-//		inf.addStudent(new Students("Erdc",14,"nowhere","1236"));
-//		inf.addStudent(new Students("Mis",12,"nowhere","123"));
-//		inf.addStudent(new Students("J",13,"nowhere","1234"));
-//		inf.addStudent(new Students("Eer",14,"nowhere","1235"));
-//		inf.addStudent(new Students("Ec",14,"nowhere","1236"));
+
 
 		rowData=inf.SwitchToTable();
 		String[] columnNames = {"序号", "姓名", "年龄", "籍贯", "电话号码"};
@@ -342,9 +334,7 @@ class StuInfFrame extends JFrame {
 				if(nameOfAddPanel.getText().equals("") || ageOfAddPanel.getText().equals("") || NativeOfAddPanel.getText().equals("") || TelOfAddPanel.getText().equals("")) {
 					JOptionPane.showMessageDialog(addPanel,"学生信息输入为空！","警告",JOptionPane.WARNING_MESSAGE);
 				}else {
-					System.out.println(inf.stuset.size());
 					inf.addStudent(new Students(nameOfAddPanel.getText(),Integer.parseInt(ageOfAddPanel.getText()),NativeOfAddPanel.getText(),TelOfAddPanel.getText()));
-					System.out.println(inf.stuset.size());
 					rowData=inf.SwitchToTable();
 	//				for (int i= 0;  i< inf.stuset.size(); i++) {
 	//					for (int j = 0; j < 5; j++) {
@@ -445,7 +435,6 @@ class StuInfFrame extends JFrame {
 		// 点击搜索按钮触发事件，用setDataVector()方法来更新Model的数据
 		model.setDataVector(rowData, columnNames);
 		model.fireTableDataChanged();
-		System.out.println("here");
 	}
 	
     public void changeContentPane(Container contentPane) {//切换面板
