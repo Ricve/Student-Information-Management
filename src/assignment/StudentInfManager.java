@@ -55,7 +55,7 @@ class StuInfFrame extends JFrame {
 	Students temp=null;//查询到的学生
 	/*构造方法*/
 	public StuInfFrame() {
-		super("Student Information Manager");
+		super("Student Information Management");
 		setSize(600, 400);
 		
 		/*欢迎界面*/
@@ -92,40 +92,26 @@ class StuInfFrame extends JFrame {
 		topPanel.add(changeButton);
 		topPanel.add(deleteButton);
 		
-		
-		inf.addStudent(new Students("Mike",12,"nowhere","123"));
-		inf.addStudent(new Students("John",13,"nowhere","1234"));
-		inf.addStudent(new Students("Eri",14,"nowhere","1245"));
-		inf.addStudent(new Students("Er",14,"nowhere","1236"));
-		inf.addStudent(new Students("MiK",12,"nowhere","123"));
-		inf.addStudent(new Students("Joh",13,"nowhere","1234"));
-		inf.addStudent(new Students("E",14,"nowhere","1235"));
-		inf.addStudent(new Students("Err",14,"nowhere","1236"));
-		inf.addStudent(new Students("Mi",12,"nowhere","123"));
-		inf.addStudent(new Students("Jo",13,"nowhere","1234"));
-		inf.addStudent(new Students("Eee",14,"nowhere","1235"));
-		inf.addStudent(new Students("Erdc",14,"nowhere","1236"));
-		inf.addStudent(new Students("Mis",12,"nowhere","123"));
-		inf.addStudent(new Students("J",13,"nowhere","1234"));
-		inf.addStudent(new Students("Eer",14,"nowhere","1235"));
-		inf.addStudent(new Students("Ec",14,"nowhere","1236"));
-//		inf.DeleteStudent("Eric");
+		inf.readFromTxt();
+//		inf.addStudent(new Students("Mike",12,"nowhere","123"));
+//		inf.addStudent(new Students("John",13,"nowhere","1234"));
+//		inf.addStudent(new Students("Eri",14,"nowhere","1245"));
+//		inf.addStudent(new Students("Er",14,"nowhere","1236"));
+//		inf.addStudent(new Students("MiK",12,"nowhere","123"));
+//		inf.addStudent(new Students("Joh",13,"nowhere","1234"));
+//		inf.addStudent(new Students("E",14,"nowhere","1235"));
+//		inf.addStudent(new Students("Err",14,"nowhere","1236"));
+//		inf.addStudent(new Students("Mi",12,"nowhere","123"));
+//		inf.addStudent(new Students("Jo",13,"nowhere","1234"));
+//		inf.addStudent(new Students("Eee",14,"nowhere","1235"));
+//		inf.addStudent(new Students("Erdc",14,"nowhere","1236"));
+//		inf.addStudent(new Students("Mis",12,"nowhere","123"));
+//		inf.addStudent(new Students("J",13,"nowhere","1234"));
+//		inf.addStudent(new Students("Eer",14,"nowhere","1235"));
+//		inf.addStudent(new Students("Ec",14,"nowhere","1236"));
+
 		rowData=inf.SwitchToTable();
 		String[] columnNames = {"序号", "姓名", "年龄", "籍贯", "电话号码"};
-//		Object[][] rowData = {
-//            {1, "Mike",12,"nowhere",123},
-//            {2, "John",13,"nowhere",1234},
-//            {3, "Eric",14,"nowhere",1235},
-//            {1, "Mike",12,"nowhere",123},
-//            {2, "John",13,"nowhere",1234},
-//            {3, "Eric",14,"nowhere",1235},
-//            {1, "Mike",12,"nowhere",123},
-//            {2, "John",13,"nowhere",1234},
-//            {3, "Eric",14,"nowhere",1235},
-//            {1, "Mike",12,"nowhere",123},
-//            {2, "John",13,"nowhere",1234},
-//
-//	    };
         // 创建一个表格，指定 表头 和 所有行数据
 		model = new DefaultTableModel(rowData, columnNames);//
 		table = new JTable(model){//此处重写Editable方法，改为不能编辑
@@ -351,7 +337,7 @@ class StuInfFrame extends JFrame {
 				changeContentPane(findPanel);
 			}else if(source==backToMainButton||source==backtoMainfromFind||source==backtoMainfromChange) {
 				changeContentPane(mainPanel);
-			}else if(source==addStudent) {
+			}else if(source==addStudent) {//添加学生面板的添加按钮
 				new JOptionPane();
 				if(nameOfAddPanel.getText().equals("") || ageOfAddPanel.getText().equals("") || NativeOfAddPanel.getText().equals("") || TelOfAddPanel.getText().equals("")) {
 					JOptionPane.showMessageDialog(addPanel,"学生信息输入为空！","警告",JOptionPane.WARNING_MESSAGE);
@@ -366,8 +352,8 @@ class StuInfFrame extends JFrame {
 	//					}
 	//					System.out.println();
 	//				}
-	//				model.fireTableDataChanged();
-					reTable();
+					reTable();//表格重绘
+					inf.saveAsTxt();//及时保存至txt
 					JOptionPane.showMessageDialog(addPanel, "学生信息添加成功！","添加成功",JOptionPane.INFORMATION_MESSAGE);
 					nameOfAddPanel.setText("");
 					ageOfAddPanel.setText("");
@@ -375,7 +361,7 @@ class StuInfFrame extends JFrame {
 					TelOfAddPanel.setText("");
 					changeContentPane(mainPanel);
 				}
-			}else if(source==findStudent) {
+			}else if(source==findStudent) {//查找面板 查找按钮
 				temp=inf.FindStudent(findTextField.getText());
 				if(temp==null) {
 					JOptionPane.showMessageDialog(findPanel,"该学生不存在！","警告",JOptionPane.WARNING_MESSAGE);
@@ -386,18 +372,19 @@ class StuInfFrame extends JFrame {
 					resultmodel.fireTableDataChanged();
 			        resulttable.getColumnModel().getColumn(3).setPreferredWidth(120);
 				}
-			}else if(source==changeStudent) {
+			}else if(source==changeStudent) {//查找面板 更改按钮
 				if(temp==null) {
 					JOptionPane.showMessageDialog(findPanel,"未确定要更改的学生，请先查找！","警告",JOptionPane.WARNING_MESSAGE);
 				}else {
 					changeContentPane(changePanel);
 				}
 				
-			}else if(source==deleteStudent) {
+			}else if(source==deleteStudent) {//查找面板 删除按钮
 				if(temp==null) {
 					JOptionPane.showMessageDialog(findPanel,"未确定要删除的学生，请先查找！","警告",JOptionPane.WARNING_MESSAGE);
 				}
-				inf.DeleteStudent(temp.getName());
+				inf.DeleteStudent(temp.getName());//调用删除函数
+				inf.saveAsTxt();//及时保存至txt
 				/*清空查询界面输入框及表格*/
 				findTextField.setText("");
 				JOptionPane.showMessageDialog(findPanel, "学生信息删除成功！","删除成功",JOptionPane.INFORMATION_MESSAGE);
@@ -411,7 +398,7 @@ class StuInfFrame extends JFrame {
 				rowData=inf.SwitchToTable();
 				reTable();
 //				changeContentPane(mainPanel);
-			}else if(source==confirmChange) {
+			}else if(source==confirmChange) {//更该界面 确认按钮
 				if(nameOfchangePanel.getText().equals("") || ageOfchangePanel.getText().equals("") || nativeOfchangePanel.getText().equals("") || telOfchangePanel.getText().equals("")) {
 					JOptionPane.showMessageDialog(changePanel,"修改学生信息为空！","警告",JOptionPane.WARNING_MESSAGE);
 				}else{
@@ -421,6 +408,7 @@ class StuInfFrame extends JFrame {
 					temp.setNativePlace(nativeOfchangePanel.getText());
 					temp.setTelNum(telOfchangePanel.getText());
 					rowData=inf.SwitchToTable();
+					inf.saveAsTxt();//及时保存至txt文件
 					reTable();
 					JOptionPane.showMessageDialog(changePanel, "学生信息修改成功！","修改成功",JOptionPane.INFORMATION_MESSAGE);
 					/*清空修改界面输入框*/

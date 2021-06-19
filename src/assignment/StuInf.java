@@ -82,7 +82,7 @@ public class StuInf{
 		FileWriter fileWriter=null;
 		BufferedWriter bw=null;
 		try {
-			fileWriter=new FileWriter("src/output.txt");
+			fileWriter=new FileWriter("src/data.txt");
 			bw=new BufferedWriter(fileWriter);
 			Students student=null;
 			Iterator<Students> it=stuset.iterator();
