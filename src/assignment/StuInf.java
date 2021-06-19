@@ -1,5 +1,6 @@
 package assignment;
 
+import java.io.*;
 import java.util.*;
 
 public class StuInf{
@@ -56,6 +57,50 @@ public class StuInf{
 			data[0][1]=student.getAge();
 			data[0][2]=student.getNativePlace();
 			data[0][3]=student.getTelNum();			
+		}
+	}
+	/*∂¡»Î*/
+	public void readFromTxt() {
+		File file =new File("src/data.txt");
+		FileReader fileReader=null;
+		try {
+			if(!file.exists())
+				file.createNewFile();
+			fileReader=new FileReader(file);
+			Scanner in=new Scanner(fileReader);
+			while(in.hasNext()) {
+				addStudent(new Students(in.next(),in.nextInt(),in.next(),in.next()));
+			}
+//			System.out.println(stuset.size());
+//			System.out.println("here");
+			in.close();
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	public void saveAsTxt() {/*–¥ªÿ*/
+		FileWriter fileWriter=null;
+		BufferedWriter bw=null;
+		try {
+			fileWriter=new FileWriter("src/output.txt");
+			bw=new BufferedWriter(fileWriter);
+			Students student=null;
+			Iterator<Students> it=stuset.iterator();
+			while (it.hasNext()) {
+				student=it.next();
+				bw.write(student.getName());
+				bw.write(" ");
+				bw.write(Integer.toString(student.getAge()));
+				bw.write(" ");
+				bw.write(student.getNativePlace()); 
+				bw.write(" ");
+				bw.write(student.getTelNum());
+				bw.newLine();
+			}
+			bw.flush();
+			bw.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }
