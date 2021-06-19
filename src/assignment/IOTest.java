@@ -9,10 +9,10 @@ public class IOTest {
 	public static void main(String[] args){
 		StuInf inf=new StuInf();
 		/*Ìí¼Ó*/
-		inf.addStudent(new Students("Mike",12,"nowhere","123"));
-		inf.addStudent(new Students("John",13,"nowhere","1234"));
-		inf.addStudent(new Students("Eric",14,"nowhere","1235"));
-		inf.addStudent(new Students("Eric",14,"nowhere","1236"));
+//		inf.addStudent(new Students("Mike",12,"nowhere","123"));
+//		inf.addStudent(new Students("John",13,"nowhere","1234"));
+//		inf.addStudent(new Students("Eric",14,"nowhere","1235"));
+//		inf.addStudent(new Students("Eric",14,"nowhere","1236"));
 		
 		
 		File file =new File("src/data.txt");
@@ -26,8 +26,10 @@ public class IOTest {
 			fileReader=new FileReader(file);
 			Scanner in=new Scanner(fileReader);
 			while(in.hasNext()) {
-				System.out.println(in.nextLine());
+				inf.addStudent(new Students(in.next(),in.nextInt(),in.next(),in.next()));
+//				System.out.println(in.nextLine());
 			}
+			System.out.println(inf.stuset.size());
 //			System.out.println("here");
 			/*Ð´»Ø*/
 			fileWriter=new FileWriter("src/output.txt");
