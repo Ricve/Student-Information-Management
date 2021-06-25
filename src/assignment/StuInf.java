@@ -71,8 +71,6 @@ public class StuInf{
 			while(in.hasNext()) {
 				addStudent(new Students(in.next(),in.nextInt(),in.next(),in.next()));
 			}
-//			System.out.println(stuset.size());
-//			System.out.println("here");
 			in.close();
 		}catch (Exception e) {
 			System.out.println(e.getMessage());

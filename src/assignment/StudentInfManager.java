@@ -80,14 +80,9 @@ class StuInfFrame extends JFrame {
 		
 		/*主界面*/
 		mainPanel=new JPanel();
-//		mainPanel.setBackground(Color.black);
 		mainPanel.setLayout(new BorderLayout());
 		JPanel topPanel=new JPanel();
-//		JPanel downPanel=new JPanel();
-//		topPanel.setBackground(Color.cyan);
-//		downPanel.setBackground(Color.blue);
 		mainPanel.add(topPanel,BorderLayout.NORTH);
-//		mainPanel.add(downPanel,BorderLayout.CENTER);
 		
 		
 		addButton=new JButton("添加学生");
@@ -135,7 +130,6 @@ class StuInfFrame extends JFrame {
 		// 把 表格 放到 滚动面板 中（表头将自动添加到滚动面板顶部）
         scrollPane = new JScrollPane(table);
         mainPanel.add(scrollPane,BorderLayout.CENTER);//添加滚动面板到 主界面面板
-//        downPanel.add(scrollPane);
 		
         addButton.addActionListener(new MyActionListener());
         findButton.addActionListener(new MyActionListener());
@@ -336,12 +330,6 @@ class StuInfFrame extends JFrame {
 				}else {
 					inf.addStudent(new Students(nameOfAddPanel.getText(),Integer.parseInt(ageOfAddPanel.getText()),NativeOfAddPanel.getText(),TelOfAddPanel.getText()));
 					rowData=inf.SwitchToTable();
-	//				for (int i= 0;  i< inf.stuset.size(); i++) {
-	//					for (int j = 0; j < 5; j++) {
-	//						System.out.print(rowData[i][j]+" ");
-	//					}
-	//					System.out.println();
-	//				}
 					reTable();//表格重绘
 					inf.saveAsTxt();//及时保存至txt
 					JOptionPane.showMessageDialog(addPanel, "学生信息添加成功！","添加成功",JOptionPane.INFORMATION_MESSAGE);
@@ -422,17 +410,7 @@ class StuInfFrame extends JFrame {
 	}
 	public void reTable() {
 		String[] columnNames = {"序号", "姓名", "年龄", "籍贯", "电话号码"};
-        // 创建一个表格，指定 表头 和 所有行数据
-		// 首先抓取model
-//		DefaultTableModel tModel = new DefaultTableModel(rowData,columnNames); 
-		// 应用model到table
-//		table = new JTable(tModel){
-//	         public boolean isCellEditable(int rowIndex, int ColIndex){
-//	            	return false;
-//	         }
-//		};
-
-		// 点击搜索按钮触发事件，用setDataVector()方法来更新Model的数据
+		//用setDataVector()方法来更新Model的数据
 		model.setDataVector(rowData, columnNames);
 		model.fireTableDataChanged();
 	}
